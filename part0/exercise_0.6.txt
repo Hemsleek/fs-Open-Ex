@@ -1,0 +1,28 @@
+title User creates new note(single page App version)
+
+note over browser :
+    user types into the textfield
+    and clicks submit button in 
+    the browser
+end note
+note left of browser:
+on submit the browser execute
+the form event handler
+end note
+
+note right of browser:
+event handler immediately calls
+the method e.preventDefault() to
+prevent default handling of form submit
+end note
+
+note left of browser:
+ creates a new note, appends it
+ to the notes list, rerenders
+ the note list on the page
+end note
+note over browser:
+ sends the new note to the server
+end note
+browser->server:HTTP POST to http://fullstack-exampleapp.herokuapp.com/new_note_spa
+server-->browser: {"message":"note created","status":201}
