@@ -1,0 +1,14 @@
+title Notes single page App version
+
+browser->server:HTTP GET to http://fullstack-exampleapp.herokuapp.com/spa
+server-->browser:HTML-code
+note over browser:
+link in the Html code 
+causes main.css fetch 
+end note
+browser->server:HTTP GET to http://fullstack-exampleapp.herokuapp.com/main.css
+server-->browser:main.css
+note over  browser:
+Browser executes the javascript that
+manipulates the content of the notes
+end note
