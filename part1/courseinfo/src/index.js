@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import Content from './components/Content';
 import Header from './components/Header';
 import Total from './components/Total';
-import './index.css';
 
 
 const App = () => {
