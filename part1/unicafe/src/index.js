@@ -2,35 +2,42 @@ import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css'
 
-const Statistics = ({ good ,neutral ,bad }) => {
-  const total = good + neutral + bad
+const Button = ({option, setOption,text}) => 
+<button onClick={()=>setOption(option +1)}> {text} </button>  
 
-  return(
-    <div>
-      <h2>Statistics</h2>
-      <p>good {good}</p>
-      <p>neutral {neutral}</p>
-      <p>bad {bad}</p>
-      <p>All {total}</p>
-      <p>Average { total/3 } </p>
-      <p>Positive {(good/total * 100) || 0}%</p>
-    </div>
+const Statistic = ({text , value}) => (
+  <tr>
+    <td>{text}</td> 
+    <td>{value}</td>
+  </tr>
   )
-}
+
 const App = () => {
 
   const [good, setGood] = useState(0)
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
+  const total = good + neutral + bad
+
   return (
     <div>
       <h2>Give Feedback</h2>
-      <button onClick={()=>setGood(good +1)}>good</button>
-      <button onClick={()=>setNeutral(neutral +1)}>neutral</button>
-      <button onClick={()=>setBad(bad +1)}>bad</button>
-
+      <Button text='good' option={good} setOption={setGood} />
+      <Button text='Neutral' option={neutral} setOption={setNeutral} />
+      <Button text='bad' option={bad} setOption={setBad}/>
+      <h2>Statistics</h2>
       {
-        (good || neutral || bad) ? <Statistics good={good} neutral ={neutral} bad = {bad} /> : <h2>No Feedback Given</h2>
+        (good || neutral || bad) ? <table>
+          <tbody>
+            <Statistic text='good' value={good} />
+            <Statistic text='neutral' value={neutral} />
+            <Statistic text='bad' value={bad}  />
+            <Statistic text='All' value={total}  />
+            <Statistic text='Average' value={total/3} />
+            <Statistic text='Positive' value={(good/total * 100)+'%'} />
+          </tbody>
+        </table> : 
+        <h2>No Feedback Given</h2>
       }
 
     </div>
