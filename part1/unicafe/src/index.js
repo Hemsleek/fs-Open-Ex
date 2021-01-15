@@ -1,16 +1,9 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
+import Button from './components/Button';
+import Statistic from './components/Statistic';
 import './index.css'
 
-const Button = ({ option, setOption, text }) =>
-  <button onClick={() => setOption(option + 1)}> {text} </button>
-
-const Statistic = ({ text, value }) => (
-  <tr>
-    <td>{text}</td>
-    <td>{value}</td>
-  </tr>
-)
 
 const App = () => {
 
