@@ -2,15 +2,15 @@ import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css'
 
-const Button = ({option, setOption,text}) => 
-<button onClick={()=>setOption(option +1)}> {text} </button>  
+const Button = ({ option, setOption, text }) =>
+  <button onClick={() => setOption(option + 1)}> {text} </button>
 
-const Statistic = ({text , value}) => (
+const Statistic = ({ text, value }) => (
   <tr>
-    <td>{text}</td> 
+    <td>{text}</td>
     <td>{value}</td>
   </tr>
-  )
+)
 
 const App = () => {
 
@@ -24,20 +24,20 @@ const App = () => {
       <h2>Give Feedback</h2>
       <Button text='good' option={good} setOption={setGood} />
       <Button text='Neutral' option={neutral} setOption={setNeutral} />
-      <Button text='bad' option={bad} setOption={setBad}/>
+      <Button text='bad' option={bad} setOption={setBad} />
       <h2>Statistics</h2>
       {
         (good || neutral || bad) ? <table>
           <tbody>
             <Statistic text='good' value={good} />
             <Statistic text='neutral' value={neutral} />
-            <Statistic text='bad' value={bad}  />
-            <Statistic text='All' value={total}  />
-            <Statistic text='Average' value={total/3} />
-            <Statistic text='Positive' value={(good/total * 100)+'%'} />
+            <Statistic text='bad' value={bad} />
+            <Statistic text='All' value={total} />
+            <Statistic text='Average' value={total / 3} />
+            <Statistic text='Positive' value={(good / total * 100) + '%'} />
           </tbody>
-        </table> : 
-        <h2>No Feedback Given</h2>
+        </table> :
+          <p>No Feedback Given</p>
       }
 
     </div>
