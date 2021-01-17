@@ -6,11 +6,22 @@ const App = (props) => {
 
   //creates a random number between 0 and length of anecdotes array inclusive
   const randNumber = () => Math.floor(Math.random() * anecdotes.length)
+
+  //creates an array
+  const points = [].fill(0,0,anecdotes.length)
+  console.log(points);
+
+  const handlePoints = () => {
+    const counts = [...points]
+    counts[selected] += 1
+  }
+
   return (
     <div className="App">
       <p>{props.anecdotes[selected]}</p>
-      <button style={{marginRight:10}}>Vote</button>
+      <button onClick={handlePoints} style={{marginRight:10}}>Vote</button>
       <button onClick={() => setSelected(randNumber())}>Next Anecdotes</button>
+      <p>has { points[selected] }</p>
     </div>
   )
 }
