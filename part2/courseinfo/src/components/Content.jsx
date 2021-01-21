@@ -1,14 +1,12 @@
 import React from 'react'
+import Parts from './Parts'
+import Total from './Total'
 
 function Content({parts}) {
     return (
         <div className="Content">
-            {
-                parts.map((part,partIndex) => 
-                <p key={`course-part${partIndex}`}>
-                    {part.name} {part.exercises}
-                </p>)
-            }
+            <Parts parts={parts} />
+            <Total parts={parts} />
         </div>
     )
 }
