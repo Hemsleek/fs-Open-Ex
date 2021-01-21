@@ -6,7 +6,6 @@ function Content({parts}) {
     return (
         <div className="Content">
             <Parts parts={parts} />
-            <Total parts={parts} />
         </div>
     )
 }
