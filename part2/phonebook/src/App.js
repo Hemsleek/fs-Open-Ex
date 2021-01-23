@@ -8,7 +8,7 @@ function App() {
   const [ newName, setNewName ] = useState('')
 
   const handleSubmit = () =>{
-    const personExist = persons.map(person=> person.name).some(item => item===newName)
+    const personExist = persons.map(person=> person.name).some(item => item.toLowerCase()===newName.toLowerCase().trim())
     if(personExist) {
       window.alert(`${newName} is already added to the phonebook`)
       return null
