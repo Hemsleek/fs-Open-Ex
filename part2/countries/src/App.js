@@ -6,6 +6,7 @@ import './App.css';
 
 function App() {
   const [countries , setCountries] = useState([])
+  const [filtered , setFiltered] = useState('')
 
   useEffect(() => {
     Axios('https://restcountries.eu/rest/v2/all')
@@ -13,16 +14,20 @@ function App() {
     .catch(err => console.log(err))
 
   },[])
+
+  const countriesToShow = filtered.trim() ? countries.filter(country => country.name.toLowerCase().includes(filtered.toLowerCase())): []
+  
   return (
     <div className="App">
      <form>
        <div>
-         find countries <input type='text' />
+         find countries <input type='text' value={filtered} onChange={(e) => setFiltered(e.target.value)} />
+
        </div>
      </form>
      <div>
        {
-       countries.map((country,countryIndex) => <p key={`country-index${countryIndex}`}>{country.name}</p>)
+       countriesToShow.map((country,countryIndex) => <p key={`country-index${countryIndex}`}>{country.name}</p>)
        }
      </div>
     </div>
