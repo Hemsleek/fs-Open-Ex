@@ -1,20 +1,21 @@
-import React,{useState} from 'react'
-import './App.css';
+import React,{useState , useEffect} from 'react'
+import Axios from 'axios'
+
 import FilterForm from './components/FilterForm';
 import PersonForm from './components/PersonForm';
 import Persons from './components/Persons';
+
+import './App.css';
 
 function App() {
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
   const [filtered , setFiltered] = useState('')
+  const [persons, setPersons] = useState([])
 
-  const [persons, setPersons] = useState([
-    { name: 'Arto Hellas', number: '040-123456' },
-    { name: 'Ada Lovelace', number: '39-44-5323523' },
-    { name: 'Dan Abramov', number: '12-43-234345' },
-    { name: 'Mary Poppendieck', number: '39-23-6423122' }
-  ])
+  useEffect(() => {
+    Axios('http://localhost:3001/persons').then(response => setPersons(response.data)).catch(err => console.log(err))
+  },[])
 
   const personsToShow = filtered.trim()? persons.filter(person => person.name.toLowerCase().includes(filtered.toLowerCase()) ) : persons
 
