@@ -22,14 +22,22 @@ const OneCountry = ({country}) => {
 }
 
 const CountriesToDisplay = ({filtered , countries}) => {
+  const [displayCountry , setDisplayCountry] = useState([])
   const countriesToShow = filtered.trim() ? countries.filter(country => country.name.toLowerCase().includes(filtered.toLowerCase())): []
   const countriesLength = countriesToShow.length
   return(
     <div>
-      {
-        countriesLength===1? <OneCountry country={countriesToShow} /> : 
-        countriesLength <10 ? countriesToShow.map((country,countryIndex) => <p key={`country-index${countryIndex}`}>{country.name}</p>) : 
-        <p>Too Many matches,specify another filter</p>
+      { !displayCountry.length?
+        (
+          countriesLength===1? <OneCountry country={countriesToShow} /> : 
+          countriesLength <10 ? countriesToShow.map((country,countryIndex) => 
+          <div style={{display:'flex',alignItems:'center'}} key={`country-index${countryIndex}`}>
+          <p >{country.name}</p> 
+          <button onClick={() => setDisplayCountry([country])}>show</button> 
+          </div>) :
+          <p>Too Many matches,specify another filter</p>
+        ) :
+        <OneCountry country ={displayCountry}/>
       }
     </div>
   ) 
