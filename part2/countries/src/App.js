@@ -21,8 +21,7 @@ const OneCountry = ({country}) => {
   )
 }
 
-const CountriesToDisplay = ({filtered , countries}) => {
-  const [displayCountry , setDisplayCountry] = useState([])
+const CountriesToDisplay = ({filtered , countries , displayCountry, setDisplayCountry}) => {
   const countriesToShow = filtered.trim() ? countries.filter(country => country.name.toLowerCase().includes(filtered.toLowerCase())): []
   const countriesLength = countriesToShow.length
   return(
@@ -45,6 +44,7 @@ const CountriesToDisplay = ({filtered , countries}) => {
 function App() {
   const [countries , setCountries] = useState([])
   const [filtered , setFiltered] = useState('')
+  const [displayCountry , setDisplayCountry] = useState([])
 
   useEffect(() => {
     Axios('https://restcountries.eu/rest/v2/all')
@@ -52,18 +52,19 @@ function App() {
     .catch(err => console.log(err))
 
   },[])
-
- 
-
+  const handleInputChange = (e) => {
+    if(displayCountry.length)setDisplayCountry([])
+    setFiltered(e.target.value)
+  }
   return (
     <div className="App">
      <form>
        <div>
-         find countries <input type='text' value={filtered} onChange={(e) => setFiltered(e.target.value)} />
+         find countries <input type='text' value={filtered} onChange={(e) => handleInputChange(e)} />
 
        </div>
      </form>
-     <CountriesToDisplay filtered={filtered} countries={countries} />
+     <CountriesToDisplay filtered={filtered} countries={countries} displayCountry = {displayCountry} setDisplayCountry = {setDisplayCountry} />
     </div>
   );
 }
