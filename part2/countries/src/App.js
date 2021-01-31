@@ -10,7 +10,7 @@ const OneCountry = ({country,weather , setWeather}) => {
   const api= `http://api.weatherstack.com/current?access_key=${weatherApiKey}&query=${capital}`
 
   useEffect(()=> {
-       Axios(api).then(({data})=> setWeather(data.location)).catch(err => (err)) 
+       Axios(api).then(({data})=> setWeather(data.current)).catch(err => (err)) 
   },[api,setWeather])
 
   return(
@@ -25,7 +25,10 @@ const OneCountry = ({country,weather , setWeather}) => {
         }
       </ul>
       <img src={flag} alt={`${name}-flag`} style={{width:'30rem'}}/>
-      <h2>Weather in {weather.name}</h2>
+      <h2>Weather in {capital}</h2>
+      <p>Temperature : { weather.temperature} Celcius</p>
+      <img src={weather.weather_icons} alt="weather-icon"/>
+      <p>Wind :{weather.wind_degree} mph direction {weather.wind_dir}</p> 
     </div>
   )
 }
