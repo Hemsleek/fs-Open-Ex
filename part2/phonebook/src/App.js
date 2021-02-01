@@ -26,6 +26,14 @@ function App() {
       return null
 
     }
+    const newNote = {
+      name : newName,
+      number : newNumber,
+      id : 
+    }
+    Axios.post('http://localhost:3001/persons' ,newNote )
+      .then(response => console.log(response))
+      .catch(err => console.log(err))
     setPersons(persons.concat({name:newName,number:newNumber}))
   }
 
