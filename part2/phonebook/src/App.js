@@ -5,7 +5,7 @@ import PersonForm from './components/PersonForm';
 import Persons from './components/Persons';
 
 import './App.css';
-import { addNote, getAllNote } from './services';
+import noteService from './services';
 
 function App() {
   const [ newName, setNewName ] = useState('')
@@ -14,7 +14,7 @@ function App() {
   const [persons, setPersons] = useState([])
 
   useEffect(() => {
-    getAllNote().then(response => setPersons(response.data)).catch(err => console.log(err))
+    noteService.getAllNote().then(response => setPersons(response.data)).catch(err => console.log(err))
   },[])
 
   const personsToShow = filtered.trim()? persons.filter(person => person.name.toLowerCase().includes(filtered.toLowerCase()) ) : persons
@@ -33,9 +33,14 @@ function App() {
       number : newNumber,
       id : generateId()
     }
-     addNote(newNote).then(response => console.log(response))
+     noteService.addNote(newNote).then(response => console.log(response))
       .catch(err => console.log(err))
     setPersons(persons.concat({name:newName,number:newNumber}))
+  }
+  const handleNoteDelete =(id) => {
+    noteService.deleteNote(id)
+      .then(response => console.log(response))
+      .catch(err => console.log(err))
   }
 
   return (
@@ -45,7 +50,7 @@ function App() {
         <h2>Add a New</h2>
        <PersonForm newName = {newName} newNumber={newNumber} setNewNumber={setNewNumber} setNewName = {setNewName} handleSubmit={handleSubmit}  />
       <h2>Numbers</h2>
-      <Persons personsToShow={personsToShow} />
+      <Persons deleteNote ={handleNoteDelete} personsToShow={personsToShow} />
     </div>
   )
 }

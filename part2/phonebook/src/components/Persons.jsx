@@ -1,10 +1,14 @@
 import React from 'react'
 
-function Persons({personsToShow}) {
+function Persons({personsToShow,deleteNote}) {
     return (
         <div>
         {
-             personsToShow.map((person , personIndex) => <p key={`person${personIndex}`}>{person.name} - {person.number}</p>)
+             personsToShow.map((person , personIndex) => <div  key={`person${personIndex}`}>
+             <span>{person.name} - {person.number}</span>
+             <button onClick={() => deleteNote(person.id)}>delete</button>
+             </div>
+             )
         } 
         </div>
     )
