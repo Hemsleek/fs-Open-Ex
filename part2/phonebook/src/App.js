@@ -37,8 +37,10 @@ function App() {
       .catch(err => console.log(err))
     setPersons(persons.concat({name:newName,number:newNumber}))
   }
-  const handleNoteDelete =(id) => {
-    noteService.deleteNote(id)
+  const handleNoteDelete =(person) => {
+    if(!(window.confirm(`Delete ${person.name} ?`))) return null
+
+    noteService.deleteNote(person.id)
       .then(response => console.log(response))
       .catch(err => console.log(err))
   }

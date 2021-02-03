@@ -6,7 +6,7 @@ function Persons({personsToShow,deleteNote}) {
         {
              personsToShow.map((person , personIndex) => <div  key={`person${personIndex}`}>
              <span>{person.name} - {person.number}</span>
-             <button onClick={() => deleteNote(person.id)}>delete</button>
+             <button onClick={() => deleteNote(person)}>delete</button>
              </div>
              )
         } 
