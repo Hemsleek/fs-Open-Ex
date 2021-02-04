@@ -13,8 +13,14 @@ function App() {
   const [filtered , setFiltered] = useState('')
   const [persons, setPersons] = useState([])
 
+  const allNotes = () => {
+
+    noteService.getAllNote().then(response =>setPersons(response.data))
+      .catch(err => console.log(err))
+  }
+
   useEffect(() => {
-    noteService.getAllNote().then(response => setPersons(response.data)).catch(err => console.log(err))
+    allNotes()
   },[])
 
   const personsToShow = filtered.trim()? persons.filter(person => person.name.toLowerCase().includes(filtered.toLowerCase()) ) : persons
@@ -33,15 +39,23 @@ function App() {
       number : newNumber,
       id : generateId()
     }
-     noteService.addNote(newNote).then(response => console.log(response))
+
+    noteService.addNote(newNote).then(response =>{
+      setPersons(persons.concat(response.data))
+      setNewName('')
+      setNewNumber('')
+
+    } )
       .catch(err => console.log(err))
-    setPersons(persons.concat({name:newName,number:newNumber}))
   }
+
+
   const handleNoteDelete =(person) => {
+
     if(!(window.confirm(`Delete ${person.name} ?`))) return null
 
     noteService.deleteNote(person.id)
-      .then(response => console.log(response))
+      .then(response =>{ allNotes() })
       .catch(err => console.log(err))
   }
 
