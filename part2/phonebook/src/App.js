@@ -5,7 +5,7 @@ import PersonForm from './components/PersonForm';
 import Persons from './components/Persons';
 
 import './App.css';
-import noteService from './services';
+import personService from './services';
 
 function App() {
   const [ newName, setNewName ] = useState('')
@@ -13,14 +13,9 @@ function App() {
   const [filtered , setFiltered] = useState('')
   const [persons, setPersons] = useState([])
 
-  const allNotes = () => {
-
-    noteService.getAllNote().then(response =>setPersons(response.data))
-      .catch(err => console.log(err))
-  }
-
   useEffect(() => {
-    allNotes()
+    personService.getAllPerson().then(response =>setPersons(response.data))
+      .catch(err => console.log(err))
   },[])
 
   const personsToShow = filtered.trim()? persons.filter(person => person.name.toLowerCase().includes(filtered.toLowerCase()) ) : persons
@@ -28,19 +23,23 @@ function App() {
   const generateId = () => persons.length? Math.max(...persons.map(person => person.id)) + 1 : 1
 
   const handleSubmit = () =>{
-    const personExist = persons.map(person=> person.name).some(item => item.toLowerCase()===newName.toLowerCase().trim())
+    const personExist = persons.find(item => item.name.toLowerCase()===newName.toLowerCase().trim())
+    console.log(personExist)
     if(personExist) {
-      window.alert(`${newName} is already added to the phonebook`)
+      const numberUpdate = window.confirm(`${newName} is already added to the phonebook,replace the old nimber with a new one`)
+      if(numberUpdate){ 
+        const personUpdate={...personExist, number:newNumber}
+        personService.updatePerson(personExist.id,personUpdate).then(response=> {setPersons(persons.map(person => person.id === personExist.id? personUpdate : person ))}).catch(err=> console.log(err))
+      }
       return null
-
     }
-    const newNote = {
+    const newPerson = {
       name : newName,
       number : newNumber,
       id : generateId()
     }
 
-    noteService.addNote(newNote).then(response =>{
+    personService.addPerson(newPerson).then(response =>{
       setPersons(persons.concat(response.data))
       setNewName('')
       setNewNumber('')
@@ -50,14 +49,15 @@ function App() {
   }
 
 
-  const handleNoteDelete =(person) => {
-
+  const handlePersonDelete =(person) => {
+    const id=person.id
     if(!(window.confirm(`Delete ${person.name} ?`))) return null
 
-    noteService.deleteNote(person.id)
-      .then(response =>{ allNotes() })
+    personService.deletePerson(id)
+      .then(() =>{ setPersons(persons.filter(person => person.id!==id)) })
       .catch(err => console.log(err))
   }
+
 
   return (
     <div className="App">
@@ -66,7 +66,7 @@ function App() {
         <h2>Add a New</h2>
        <PersonForm newName = {newName} newNumber={newNumber} setNewNumber={setNewNumber} setNewName = {setNewName} handleSubmit={handleSubmit}  />
       <h2>Numbers</h2>
-      <Persons deleteNote ={handleNoteDelete} personsToShow={personsToShow} />
+      <Persons deletePerson ={handlePersonDelete} personsToShow={personsToShow} />
     </div>
   )
 }

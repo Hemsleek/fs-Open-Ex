@@ -2,16 +2,18 @@ import Axios from 'axios'
 
 const baseUrl = 'http://localhost:3001/persons/'
 
-const addNote = (data) => Axios.post(baseUrl , data)
+const addPerson = (data) => Axios.post(baseUrl , data)
 
-const getAllNote = () => Axios(baseUrl)
+const getAllPerson = () => Axios(baseUrl)
 
-const deleteNote = (id) => Axios.delete(baseUrl + id)
+const deletePerson = (id) => Axios.delete(baseUrl + id)
+const updatePerson = (id , data) => Axios.put(baseUrl + id,data)
 
-const noteServices = {
-    addNote:addNote ,
-    getAllNote:getAllNote,
-    deleteNote:deleteNote
+const personServices = {
+    addPerson:addPerson ,
+    getAllPerson:getAllPerson,
+    deletePerson:deletePerson,
+    updatePerson: updatePerson
 }
 
-export default noteServices
+export default personServices
