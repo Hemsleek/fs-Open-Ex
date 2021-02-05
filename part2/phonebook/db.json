@@ -1,34 +1,9 @@
 {
   "persons": [
     {
-      "name": "aisyanbi mubashir",
-      "number": "123333",
-      "id": 7
-    },
-    {
-      "name": "muba",
-      "number": "12345678",
-      "id": 8
-    },
-    {
-      "name": "mujib",
-      "number": "1234568",
-      "id": 10
-    },
-    {
-      "name": "mubass",
-      "number": "123",
-      "id": 11
-    },
-    {
-      "name": "hhhhh",
-      "number": "556",
-      "id": 12
-    },
-    {
-      "name": "mujieeb",
-      "number": "1244",
-      "id": 13
+      "name": "aishat",
+      "number": "23566",
+      "id": 15
     }
   ]
 }

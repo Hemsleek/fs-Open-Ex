@@ -1,12 +1,12 @@
 import React from 'react'
 import './Notification.css'
 
-function Notification({message}) {
-    if(message=== null) return null
+function Notification({message: {messageText , messageColor}}) {
+    if(messageText=== null) return null
 
     return (
-        <div className="Notification">
-            { message }
+        <div style={{color:messageColor,border:`2px solid ${messageColor}`}} className="Notification">
+            { messageText }
         </div>
     )
 }

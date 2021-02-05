@@ -13,11 +13,13 @@ function App() {
   const [ newNumber, setNewNumber ] = useState('')
   const [filtered , setFiltered] = useState('')
   const [persons, setPersons] = useState([])
-  const [message , setMessage] = useState(null)
-  useEffect(() => {
-    personService.getAllPerson().then(response =>setPersons(response.data))
-      .catch(err => console.log(err))
-  },[])
+  const [message , setMessage] = useState({messageText:null, messageColor:'green'})
+
+
+
+  const notificationDelay = () =>{
+    setTimeout(() =>{ setMessage({...message,messageText:null}) },3000)
+  }
 
   const personsToShow = filtered.trim()? persons.filter(person => person.name.toLowerCase().includes(filtered.toLowerCase()) ) : persons
 
@@ -32,12 +34,14 @@ function App() {
         const personUpdate={...personExist, number:newNumber}
         personService.updatePerson(personExist.id,personUpdate).then(response=> {
           setPersons(persons.map(person => person.id === personExist.id? personUpdate : person ))
-          setMessage(`Updated ${personUpdate.name}`)
+          setMessage({...message , messageText:`Updated ${personUpdate.name}`})
           
-          setTimeout(() =>{
-            setMessage(null)
-          },3000)
-        }).catch(err=> console.log(err))
+          notificationDelay()
+        }).catch(err=> {
+          setMessage({messageColor:'red', messageText:`information ${personUpdate.name} of has already been removed from server`})
+
+          notificationDelay()
+        })
       }
       return null
     }
@@ -49,12 +53,11 @@ function App() {
 
     personService.addPerson(newPerson).then(response =>{
       setPersons(persons.concat(response.data))
-      setMessage(`Added ${newPerson.name}`)
+      setMessage({...message,messageText:`Added ${newPerson.name}`})
       setNewName('')
       setNewNumber('')
-      setTimeout(() =>{
-        setMessage(null)
-      },3000)
+
+     notificationDelay()
 
     } )
       .catch(err => console.log(err))
@@ -68,15 +71,17 @@ function App() {
     personService.deletePerson(id)
       .then(() =>{ 
         setPersons(persons.filter(person => person.id!==id)) 
-        setMessage(`Removed ${person.name}`)
+        setMessage({...message, messageText:`Removed ${person.name}`})
 
-        setTimeout(() =>{
-          setMessage(null)
-        },3000)
+        notificationDelay()
       })
       .catch(err => console.log(err))
   }
 
+  useEffect(() => {
+    personService.getAllPerson().then(response =>setPersons(response.data))
+      .catch(err => console.log(err))
+  },[])
 
   return (
     <div className="App">

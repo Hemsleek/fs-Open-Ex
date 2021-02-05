@@ -2,10 +2,9 @@
     margin-bottom:1rem;
     padding:.7rem .5rem;
     font-weight:600;
-    color:green;
     font-size:1.3rem;
-    border:2px solid green;
-    max-width:50%;
+    max-width:70%;
     border-radius: .3rem;
+    text-align: center;
 
 }
