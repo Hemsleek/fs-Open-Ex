@@ -3,16 +3,17 @@ import React,{useState , useEffect} from 'react'
 import FilterForm from './components/FilterForm';
 import PersonForm from './components/PersonForm';
 import Persons from './components/Persons';
+import personService from './services';
+import Notification from './components/Notification'
 
 import './App.css';
-import personService from './services';
 
 function App() {
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
   const [filtered , setFiltered] = useState('')
   const [persons, setPersons] = useState([])
-
+  const [message , setMessage] = useState(null)
   useEffect(() => {
     personService.getAllPerson().then(response =>setPersons(response.data))
       .catch(err => console.log(err))
@@ -29,7 +30,14 @@ function App() {
       const numberUpdate = window.confirm(`${newName} is already added to the phonebook,replace the old nimber with a new one`)
       if(numberUpdate){ 
         const personUpdate={...personExist, number:newNumber}
-        personService.updatePerson(personExist.id,personUpdate).then(response=> {setPersons(persons.map(person => person.id === personExist.id? personUpdate : person ))}).catch(err=> console.log(err))
+        personService.updatePerson(personExist.id,personUpdate).then(response=> {
+          setPersons(persons.map(person => person.id === personExist.id? personUpdate : person ))
+          setMessage(`Updated ${personUpdate.name}`)
+          
+          setTimeout(() =>{
+            setMessage(null)
+          },3000)
+        }).catch(err=> console.log(err))
       }
       return null
     }
@@ -41,8 +49,12 @@ function App() {
 
     personService.addPerson(newPerson).then(response =>{
       setPersons(persons.concat(response.data))
+      setMessage(`Added ${newPerson.name}`)
       setNewName('')
       setNewNumber('')
+      setTimeout(() =>{
+        setMessage(null)
+      },3000)
 
     } )
       .catch(err => console.log(err))
@@ -54,7 +66,14 @@ function App() {
     if(!(window.confirm(`Delete ${person.name} ?`))) return null
 
     personService.deletePerson(id)
-      .then(() =>{ setPersons(persons.filter(person => person.id!==id)) })
+      .then(() =>{ 
+        setPersons(persons.filter(person => person.id!==id)) 
+        setMessage(`Removed ${person.name}`)
+
+        setTimeout(() =>{
+          setMessage(null)
+        },3000)
+      })
       .catch(err => console.log(err))
   }
 
@@ -62,6 +81,7 @@ function App() {
   return (
     <div className="App">
       <h2>Phonebook</h2>
+      <Notification message = {message} />
        <FilterForm  filtered={filtered} setFiltered = {setFiltered} />
         <h2>Add a New</h2>
        <PersonForm newName = {newName} newNumber={newNumber} setNewNumber={setNewNumber} setNewName = {setNewName} handleSubmit={handleSubmit}  />
