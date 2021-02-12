@@ -27,7 +27,6 @@ function App() {
 
   const handleSubmit = () =>{
     const personExist = persons.find(item => item.name.toLowerCase()===newName.toLowerCase().trim())
-    console.log(personExist)
     if(personExist) {
       const numberUpdate = window.confirm(`${newName} is already added to the phonebook,replace the old nimber with a new one`)
       if(numberUpdate){ 
