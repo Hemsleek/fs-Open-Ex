@@ -59,7 +59,13 @@ function App() {
      notificationDelay()
 
     } )
-      .catch(err => console.log(err))
+      .catch(err => {
+        const messageText = err.response.data.error
+        setMessage({messageColor:'red',messageText})
+        
+        notificationDelay()
+      
+      })
   }
 
 
